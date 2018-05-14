@@ -27,7 +27,7 @@ SRCDIR     :=./Sources
 # LIBINST    =/usr/local/lib
 # HEADINST   =/usr/local/include
 # For relative path installation
-LIBINST     ="../Modelica/ExternalMedia $(FULLVERSION)/Resources/Library/linux32"
+LIBINST     ="../Modelica/ExternalMedia $(FULLVERSION)/Resources/Library/x86_64-linux"
 HEADINST    ="../Modelica/ExternalMedia $(FULLVERSION)/Resources/Include"
 #
 BINDIR     :=./build/LinuxGCC
@@ -58,13 +58,13 @@ MAJORVERSION     :=3
 MINORVERSION     :=2
 FULLVERSION      :=$(MAJORVERSION).$(MINORVERSION).1
 THENAME          :=ExternalMediaLib
-LIBRARYEXTENSION :=.a
+LIBRARYEXTENSION :=.so
 THETEST          :=ExternalMediaLibTest
 
-COOLPROPDIR      :=../externals/coolprop/trunk/CoolProp
+COOLPROPDIR      :=../externals/coolprop/CoolProp
 
-LIBS       =
-OPTFLAGS   =-O2 -funroll-loops -ffast-math #-loleaut32 #-DCOOLPROP=1 # optimisation, remove for debugging
+LIBS       := -ldl
+OPTFLAGS   :=-O2 -fPIC -funroll-loops -ffast-math -DCOOLPROP=1  #-loleaut32 # optimisation, remove for debugging
 
 
 ###########################################################
@@ -88,7 +88,7 @@ HEADEREXTENSION :=.h
 ###########################################################
 ifeq ($(LIBRARYEXTENSION),.so)
   install         : install_dynamic
-  LIBFLAGS        =-rdynamic -fPIC -shared -Wl,-soname,$(LIBRARY)$(LIBRARYEXTENSION).$(MAJORVERSION)
+  LIBFLAGS        =-rdynamic -fPIC -shared $(LIBS) -Wl,-soname,$(LIBRARY)$(LIBRARYEXTENSION).$(MAJORVERSION)
 endif
 
 
@@ -98,7 +98,7 @@ endif
 ###########################################################
 ifeq ($(LIBRARYEXTENSION),.a)
   install         : install_static
-  LIBFLAGS        =-fPIC -static
+  LIBFLAGS        =-fPIC -static 
 endif
 
 
@@ -115,7 +115,8 @@ install_dynamic : header library
 ifeq ($(USERNAME),root)
 	$(LD) -l $(LIBINST)/$(LIBRARY).so.$(MAJORVERSION).$(MINORVERSION)
 endif
-	$(LN) $(LIBINST)/$(LIBRARY).so.$(MAJORVERSION) $(LIBINST)/$(LIBRARY).so
+	$(LN) $(LIBRARY).so.$(MAJORVERSION).$(MINORVERSION) $(LIBINST)/$(LIBRARY).so
+	$(LN) $(LIBRARY).so.$(MAJORVERSION).$(MINORVERSION) $(LIBINST)/$(LIBRARY).so.$(MAJORVERSION) 
 ifeq ($(USERNAME),root)
 	$(LD) 
 endif 
@@ -126,7 +127,7 @@ install_static : header library
 	$(CP) $(BINDIR)/$(HEADERFILE)$(HEADEREXTENSION) $(HEADINST)/$(HEADERFILE)$(HEADEREXTENSION)
 	$(CP) $(BINDIR)/$(LIBRARY).a  $(LIBINST)/$(LIBRARY).a 
 	$(CH) $(HEADINST)/$(HEADERFILE)$(HEADEREXTENSION)
-	$(CH) $(LIBINST)/$(LIBRARY).a 
+	
 ifeq ($(USERNAME),root)
 	$(LD) 
 endif 
@@ -198,11 +199,11 @@ library    : $(COOLOBJ_FILES) $(BINDIR)/$(LIBRARY)$(LIBRARYEXTENSION)
 
 $(BINDIR)/$(LIBRARY).so: $(COOLOBJ_FILES) $(EXMEOBJ_FILES) #$(SRCDIR)/$(LIBFILE).o
 	$(MK) $(BINDIR)
-	$(CPPC) $(LIBFLAGS) $(CPPFLAGS) -o $(BINDIR)/$(LIBRARY).so $(EXMEOBJ_FILES) #$(SRCDIR)/$(LIBFILE).o
+	$(CPPC) $(LIBFLAGS) $(CPPFLAGS) -o $(BINDIR)/$(LIBRARY).so $^ #(EXMEOBJ_FILES) #$(SRCDIR)/$(LIBFILE).o
 
 $(BINDIR)/$(LIBRARY).a: $(COOLOBJ_FILES) $(EXMEOBJ_FILES) #$(SRCDIR)/$(LIBFILE).o
 	$(MK) $(BINDIR)
-	$(AR) $(BINDIR)/$(LIBRARY).a $^
+	$(AR) $(BINDIR)/$(LIBRARY).a $^  
 
 
 ###########################################################

@@ -24,15 +24,26 @@ package CoolPropMedium "Medium package accessing the CoolProp solver"
     input FixedPhase phase=0 "phase flag";
     output ThermodynamicState state "complete thermodynamic state info";
     // Standard definition
-  external"C" TwoPhaseMedium_setBubbleState_C_impl(
-        sat,
-        phase,
-        state,
-        mediumName,
-        libraryName,
-        substanceName)
-      annotation(Include="#include \"externalmedialib.h\"", Library="ExternalMediaLib", IncludeDirectory="modelica://ExternalMedia/Resources/Include", LibraryDirectory="modelica://ExternalMedia/Resources/Library");
-    annotation (Inline=true);
+    function setBubbleState_inline
+      input FixedPhase phase;
+      output SaturationProperties sat;
+      output ThermodynamicState state;
+    external"C" TwoPhaseMedium_setBubbleState_C_impl(
+          sat,
+          phase,
+          state,
+          mediumName,
+          libraryName,
+          substanceName)
+        annotation(Include="#include \"externalmedialib.h\"", Library="ExternalMediaLib", IncludeDirectory="modelica://ExternalMedia/Resources/Include", LibraryDirectory="modelica://ExternalMedia/Resources/Library");
+      annotation (Inline=true);
+    end setBubbleState_inline;
+  protected
+    SaturationProperties sat0;
+  algorithm
+    sat0 := sat;
+    (sat0, state) := setBubbleState_inline(phase);
+  annotation (Inline=true);
   end setBubbleState;
 
   redeclare replaceable function setDewState
@@ -42,15 +53,26 @@ package CoolPropMedium "Medium package accessing the CoolProp solver"
     input FixedPhase phase=0 "phase flag";
     output ThermodynamicState state "complete thermodynamic state info";
     // Standard definition
-  external"C" TwoPhaseMedium_setDewState_C_impl(
+    function setDewState_inline
+      input FixedPhase phase=0;
+      output SaturationProperties sat;
+      output ThermodynamicState state;
+    external"C" TwoPhaseMedium_setDewState_C_impl(
         sat,
         phase,
         state,
         mediumName,
         libraryName,
         substanceName)
-      annotation(Include="#include \"externalmedialib.h\"", Library="ExternalMediaLib", IncludeDirectory="modelica://ExternalMedia/Resources/Include", LibraryDirectory="modelica://ExternalMedia/Resources/Library");
-    annotation (Inline=true);
+        annotation(Include="#include \"externalmedialib.h\"", Library="ExternalMediaLib", IncludeDirectory="modelica://ExternalMedia/Resources/Include", LibraryDirectory="modelica://ExternalMedia/Resources/Library");
+      annotation (Inline=true);
+    end setDewState_inline;
+  protected
+    SaturationProperties sat0;
+  algorithm
+    sat0 :=sat;
+    (sat0, state) := setDewState_inline(phase);
+  annotation (Inline=true);
   end setDewState;
 
   redeclare function bubbleEntropy "Return bubble point specific entropy"

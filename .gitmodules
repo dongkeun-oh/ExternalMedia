@@ -1,0 +1,6 @@
+[submodule "externals/coolprop"]
+	path = externals/coolprop
+	url = https://github.com/dongkeun-oh/coolprop
+[submodule "externals/librefprop.so"]
+	path = externals/librefprop.so
+	url = https://github.com/dongkeun-oh/librefprop.so

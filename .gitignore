@@ -1,21 +1,20 @@
-*.mat
+#excluded subpart 
+externals/python-refprop/
 
+#temporary parts are neglected
+build/
+temp/
+
+#ignorable files 
+.DS_Store
+.Trashes
+._*
+*.o
+*.log
+*.simlog
+#*
 *~
+*.swp
+*.tmp
+*.bak
 
-buildlog.txt
-
-dsfinal.txt
-
-dsin.txt
-
-dslog.txt
-
-dsmodelext1.c
-
-dsmodel.c
-
-dymosim.exe
-
-dymosim.exp
-
-dymosim.lib

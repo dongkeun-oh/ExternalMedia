@@ -14,7 +14,7 @@ package ExternalTwoPhaseMedium "Generic external two phase medium package"
     "Name of the external fluid property computation library";
   constant String substanceName = substanceNames[1]
     "Only one substance can be specified";
-  constant FluidConstants externalFluidConstants = FluidConstants(
+  constant FluidConstants externalFluidConstants(
     iupacName=  "unknown",
     casRegistryNumber=  "unknown",
     chemicalFormula=  "unknown",
@@ -158,13 +158,16 @@ package ExternalTwoPhaseMedium "Generic external two phase medium package"
       // Event generation at phase boundary crossing
       if basePropertiesInputChoice == InputChoice.ph then
         phaseOutput = if ((h > bubbleEnthalpy(sat) and h < dewEnthalpy(sat)) and
-                           p < fluidConstants[1].criticalPressure) then 2 else 1;
+                           p < externalFluidConstants.criticalPressure) then 2 else 1;
+//                           p < fluidConstants[1].criticalPressure) then 2 else 1;
       elseif basePropertiesInputChoice == InputChoice.dT then
         phaseOutput = if  ((d < bubbleDensity(sat) and d > dewDensity(sat)) and
-                            T < fluidConstants[1].criticalTemperature) then 2 else 1;
+                            T < externalFluidConstants.criticalTemperature) then 2 else 1;
+//                            T < fluidConstants[1].criticalTemperature) then 2 else 1;
       elseif basePropertiesInputChoice == InputChoice.ps then
         phaseOutput = if ((s > bubbleEntropy(sat) and s < dewEntropy(sat)) and
-                           p < fluidConstants[1].criticalPressure) then 2 else 1;
+                           p < externalFluidConstants.criticalPressure) then 2 else 1;
+//                           p < fluidConstants[1].criticalPressure) then 2 else 1;
       elseif basePropertiesInputChoice == InputChoice.hs then
         phaseOutput = if ((s > bubbleEntropy(sat)  and s < dewEntropy(sat)) and
                           (h > bubbleEnthalpy(sat) and h < dewEnthalpy(sat))) then 2 else 1;
@@ -180,7 +183,7 @@ package ExternalTwoPhaseMedium "Generic external two phase medium package"
       input ThermodynamicState state;
       output MolarMass MM "Mixture molar mass";
   algorithm
-    MM := fluidConstants[1].molarMass;
+    MM := externalFluidConstants.molarMass; //fluidConstants[1].molarMass;
   end molarMass;
 
   replaceable function getMolarMass

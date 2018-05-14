@@ -1,0 +1,13 @@
+* This repository is a minor modification of ExternalMedia 3.2.1 
+(https://github.com/modelica/ExternalMedia, commit=159518e)
+
+* make-linux is updated for coolprop 4.2.6 with refprop 9.1 (propertiery)
+
+* make-darwin is included for the same
+
+* Troubles with openmodelica is solved by ad-hoc replacement of
+fluidConstants[1] by externalFluidConstants in ExternalMedia\ 3.2.1/Media/BaseClasses/ExternalTwoPhaseMedium.mo 
+- it works, but we don't know whether this remedy is the essential solution
+
+* Released by Dong Keun Oh with NFRI (National Fusion Research Institute) 
+in 2018/may/13

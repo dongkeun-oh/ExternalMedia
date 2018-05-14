@@ -6,7 +6,8 @@ package Test "Test models for the different solvers"
     model TestConstants "Test case using TestMedium with package constants"
       extends Modelica.Icons.Example;
       replaceable package Medium = Media.TestMedium;
-      Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
+//      Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
+      Medium.Temperature Tc=Medium.externalFluidConstants.criticalTemperature;
     end TestConstants;
 
     model TestState "Test case using TestMedium with a single state record"
@@ -148,10 +149,14 @@ package Test "Test models for the different solvers"
         replaceable package Medium =
             Modelica.Media.Interfaces.PartialTwoPhaseMedium;
         // Fluid constants
-        Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
-        Medium.AbsolutePressure pc=Medium.fluidConstants[1].criticalPressure;
-        Medium.MolarVolume vc=Medium.fluidConstants[1].criticalMolarVolume;
-        Medium.MolarMass MM=Medium.fluidConstants[1].molarMass;
+        Medium.Temperature Tc=Medium.externalFluidConstants.criticalTemperature;
+        Medium.AbsolutePressure pc=Medium.externalFluidConstants.criticalPressure;
+        Medium.MolarVolume vc=Medium.externalFluidConstants.criticalMolarVolume;
+        Medium.MolarMass MM=Medium.externalFluidConstants.molarMass;
+//        Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
+//        Medium.AbsolutePressure pc=Medium.fluidConstants[1].criticalPressure;
+//        Medium.MolarVolume vc=Medium.fluidConstants[1].criticalMolarVolume;
+//        Medium.MolarMass MM=Medium.fluidConstants[1].molarMass;
       end CompleteFluidConstants;
 
       model CompleteThermodynamicState
@@ -926,7 +931,7 @@ package Test "Test models for the different solvers"
     equation
       //p = 1E5;
       h = 0 + time*1E6;
-      s = 1500;  //600 + time*2000;
+      s = 600 + time*2000;
       fluid.p = p;
       fluid.s = s;
       fluid.h = h;
@@ -945,15 +950,13 @@ package Test "Test models for the different solvers"
       Modelica.SIunits.SpecificEnthalpy h;
       Modelica.SIunits.Pressure p;
       Modelica.SIunits.SpecificEntropy s;
-      Modelica.SIunits.DerDensityByEnthalpy drdh
-        "Derivative of average density by enthalpy";
-      Modelica.SIunits.DerDensityByPressure drdp
-        "Derivative of average density by pressure";
+      Modelica.SIunits.DerDensityByEnthalpy drdh "Derivative of average density by enthalpy";
+      Modelica.SIunits.DerDensityByPressure drdp "Derivative of average density by pressure";
     equation
       //p = 1E5;
-      h = 0 + time*1E6;
-      s = 600 + time*2000;
-      fluid = wf.setState_hs(h,s);
+      h = 0 + time * 1E6;
+      s = 600 + time * 2000;
+      fluid = wf.setState_hs(h, s);
       fluid.p = p;
       drdp = wf.density_derp_h(fluid);
       drdh = wf.density_derh_p(fluid);
@@ -1165,10 +1168,12 @@ package Test "Test models for the different solvers"
         package Medium = Helium;
         Medium.ThermodynamicState state;
         Medium.Temperature T;
-        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
+        Medium.Temperature Tcrit=Medium.externalFluidConstants.criticalTemperature;
+//        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
         Medium.AbsolutePressure p;
         Modelica.SIunits.Density d;
-        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
+        Medium.AbsolutePressure pcrit=Medium.externalFluidConstants.criticalPressure;
+//        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
       equation
         T = 300 - 297.5*time;
         p = 4e5 + 0*time;
@@ -1197,10 +1202,12 @@ package Test "Test models for the different solvers"
         package Medium = Helium;
         Medium.ThermodynamicState state;
         Medium.Temperature T;
-        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
+        Medium.Temperature Tcrit=Medium.externalFluidConstants.criticalTemperature;
+//        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
         Medium.AbsolutePressure p;
         Modelica.SIunits.Density d;
-        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
+        Medium.AbsolutePressure pcrit=Medium.externalFluidConstants.criticalPressure;
+//        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
         Modelica.SIunits.SpecificHeatCapacity cv=Medium.specificHeatCapacityCv(
             state);
       equation
@@ -1268,10 +1275,12 @@ package Test "Test models for the different solvers"
         package Medium = Helium;
         Medium.ThermodynamicState state;
         Medium.Temperature T;
-        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
+        Medium.Temperature Tcrit=Medium.externalFluidConstants.criticalTemperature;
+//        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
         Medium.AbsolutePressure p;
         Modelica.SIunits.Density d;
-        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
+        Medium.AbsolutePressure pcrit=Medium.externalFluidConstants.criticalPressure;
+//        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
       equation
         T = 300 - 297.5*time;
         p = 4e5 + 0*time;
@@ -1300,10 +1309,12 @@ package Test "Test models for the different solvers"
         package Medium = Helium;
         Medium.ThermodynamicState state;
         Medium.Temperature T;
-        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
+        Medium.Temperature Tcrit=Medium.externalFluidConstants.criticalTemperature;
+//        Medium.Temperature Tcrit=Medium.fluidConstants[1].criticalTemperature;
         Medium.AbsolutePressure p;
         Modelica.SIunits.Density d;
-        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
+        Medium.AbsolutePressure pcrit=Medium.externalFluidConstants.criticalPressure;
+//        Medium.AbsolutePressure pcrit=Medium.fluidConstants[1].criticalPressure;
         Modelica.SIunits.SpecificHeatCapacity cv=Medium.specificHeatCapacityCv(
             state);
       equation
@@ -1327,10 +1338,14 @@ package Test "Test models for the different solvers"
         constrainedby Modelica.Media.Interfaces.PartialTwoPhaseMedium
         annotation(choicesAllMatching=true);
       // Fluid constants
-      Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
-      Medium.AbsolutePressure pc=Medium.fluidConstants[1].criticalPressure;
-      Medium.MolarVolume vc=Medium.fluidConstants[1].criticalMolarVolume;
-      Medium.MolarMass MM=Medium.fluidConstants[1].molarMass;
+      Medium.Temperature Tc=Medium.externalFluidConstants.criticalTemperature;
+      Medium.AbsolutePressure pc=Medium.externalFluidConstants.criticalPressure;
+      Medium.MolarVolume vc=Medium.externalFluidConstants.criticalMolarVolume;
+      Medium.MolarMass MM=Medium.externalFluidConstants.molarMass;
+//      Medium.Temperature Tc=Medium.fluidConstants[1].criticalTemperature;
+//      Medium.AbsolutePressure pc=Medium.fluidConstants[1].criticalPressure;
+//      Medium.MolarVolume vc=Medium.fluidConstants[1].criticalMolarVolume;
+//      Medium.MolarMass MM=Medium.fluidConstants[1].molarMass;
     end CompleteFluidConstants;
 
     model CompleteThermodynamicState
@@ -1711,9 +1726,11 @@ package Test "Test models for the different solvers"
 
       parameter Medium.AbsolutePressure p_start = 1e5;
     algorithm
-      assert(Medium.fluidConstants[1].criticalPressure>p_start, "You have to start below the critical pressure.");
+      assert(Medium.externalFluidConstants.criticalPressure>p_start, "You have to start below the critical pressure.");
+//      assert(Medium.fluidConstants[1].criticalPressure>p_start, "You have to start below the critical pressure.");
     equation
-      p_in = p_start+0.5*(Medium.fluidConstants[1].criticalPressure-p_start)*time;
+      p_in = p_start+0.5*(Medium.externalFluidConstants.criticalPressure-p_start)*time;
+//      p_in = p_start+0.5*(Medium.fluidConstants[1].criticalPressure-p_start)*time;
       sat_in = Medium.setSat_p(p=p_in);
       h_in = Medium.bubbleEnthalpy(sat_in);
       T_in = Medium.saturationTemperature_sat(sat_in);
@@ -1732,9 +1749,11 @@ package Test "Test models for the different solvers"
 
       parameter Medium.AbsolutePressure p_start = 1e5;
     algorithm
-      assert(Medium.fluidConstants[1].criticalPressure>p_start, "You have to start below the critical pressure.");
+      assert(Medium.externalFluidConstants.criticalPressure>p_start, "You have to start below the critical pressure.");
+//      assert(Medium.fluidConstants[1].criticalPressure>p_start, "You have to start below the critical pressure.");
     equation
-      p_in = p_start+1.5*(Medium.fluidConstants[1].criticalPressure-p_start)*time;
+      p_in = p_start+1.5*(Medium.externalFluidConstants.criticalPressure-p_start)*time;
+//      p_in = p_start+1.5*(Medium.fluidConstants[1].criticalPressure-p_start)*time;
       sat_in = Medium.setSat_p(p=p_in);
       h_in = Medium.bubbleEnthalpy(sat_in);
       T_in = Medium.saturationTemperature_sat(sat_in);
