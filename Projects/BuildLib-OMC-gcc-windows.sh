@@ -5,7 +5,7 @@
 # The C++ files for CoolProp will still be compiled
 
 GCC_OPTS="-O2 -loleaut32 -DCOOLPROP=1"
-CP=../externals/coolprop/trunk
+CP=../externals/coolprop
 CPinc=${CP}/CoolProp
 INCLUDES="-I${CPinc}"
 
@@ -23,8 +23,8 @@ ar -r libExternalMediaLib.a *.o
 ranlib libExternalMediaLib.a
 
 echo "Copying files to External Media 3.2.1"
-cp libExternalMediaLib.a "../Modelica/ExternalMedia 3.2.1/Resources/Library/win32/libExternalMediaLib.OMC-gcc.a"
-cp libExternalMediaLib.a "../Modelica/ExternalMedia 3.2.1/Resources/Library/win32/libExternalMediaLib.a"
+cp libExternalMediaLib.a "../Modelica/ExternalMedia 3.2.1/Resources/Library/mingw64/libExternalMediaLib.OMC-gcc.a"
+cp libExternalMediaLib.a "../Modelica/ExternalMedia 3.2.1/Resources/Library/mingw64/libExternalMediaLib.a"
 cp Sources/externalmedialib.h "../Modelica/ExternalMedia 3.2.1/Resources/Include"
 rm libExternalMediaLib.a
 rm *.o
