@@ -1,5 +1,7 @@
 #excluded subpart 
 externals/python-refprop/
+externals/coolprop/build/
+externals/librefprop.so/lib/
 
 #temporary parts are neglected
 build/
